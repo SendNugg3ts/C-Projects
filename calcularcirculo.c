@@ -7,22 +7,23 @@ int main(){
     double r;
     double perimetro;
     double area;
-    char choice;
-    printf("\nQueres calcular area ou perimetro?");
-    scanf("%c",&choice);
-    if(strcmp(choice,"perimetro")==0){
-        printf("\nQual é o raio do circulo?");
+    char choice[100];
+    printf("\nQueres calcular area ou perimetro?\n");
+    scanf("%s",&choice);
+    if(strcmp(choice ,"perimetro")== 0){
+        printf("\nQual é o raio do circulo?\n");
         scanf("%lf",&r);
         perimetro = 2  * PI * r;
         printf("O perimetro do circulo é: %.3lf\n",perimetro);
     }
-    else if(strcmp(choice,"area")==0){
-        printf("\nQual é o raio do circulo?");
+    else if(strcmp(choice ,"area")== 0){
+        printf("\nQual é o raio do circulo?\n");
         scanf("%lf",&r);
         area= PI *r*r;
         printf("A area do circulo é: %.3lf\n",area);
     }else{
-        printf("Escreveste errado.");
+        printf("Escreveste errado.\n");
+        printf("%s",choice);
     }
 
     return 0;
