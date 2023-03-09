@@ -6,14 +6,16 @@
 char board[3][3];
 const char Player_icon = 'X';
 const char Pc_icon= 'O';
+char winner = ' ';
+int checksquares;
 
 void resetBoard();
 void printBoard();
 int freesquares();
 void PlayerPlay();
 void PcPlay();
-char winner();
-void printWinner();
+char getWinner();
+void printWinner(char);
 
 int main(){
 
@@ -21,9 +23,23 @@ int main(){
     resetBoard();
     while(winner == ' ' && freesquares()!= 0){
     printBoard();
+    checksquares=freesquares();
     PlayerPlay();
-    PcPlay();
+    while(checksquares == freesquares()){
+      PlayerPlay();
     }
+    winner = getWinner();
+    if(winner != ' ' || freesquares() == 0){
+        break;
+    }
+    PcPlay();
+    winner = getWinner();
+    if(winner != ' ' || freesquares() == 0){
+        break;
+    }
+    }
+    printBoard();
+    printWinner(winner);
     return 0;
 }
 
@@ -86,6 +102,69 @@ void PlayerPlay()
       }
    } while (board[x][y] != ' ' || x< 0 || x> 2 || y< 0 || y> 2);
 }
-void PcPlay(){
 
+
+char getWinner()
+{  //check rows
+   for(int i = 0; i < 3; i++)
+   {
+      if(board[i][0] == board[i][1] && board[i][0] == board[i][2])
+      {
+         return board[i][0];
+      }
+   }
+   //check columns
+   for(int i = 0; i < 3; i++)
+   {
+      if(board[0][i] == board[1][i] && board[0][i] == board[2][i])
+      {
+         return board[0][i];
+      }
+   }
+   //check diagonals
+   if(board[0][0] == board[1][1] && board[0][0] == board[2][2])
+   {
+      return board[0][0];
+   }
+   if(board[0][2] == board[1][1] && board[0][2] == board[2][0])
+   {
+      return board[0][2];
+   }
+   return ' ';
+}
+
+void printWinner(char winner)
+{
+   if(winner == Player_icon)
+   {
+      printf("YOU WIN GG EZ!\n");
+   }
+   else if(winner == Pc_icon)
+   {
+      printf("YOU LOSE NOOB!\n");
+   }
+   else{
+      printf("IT'S A TIE wich is the same as loosing lol!\n");
+   }
+}
+void PcPlay()
+{
+   //creates a seed based on current time
+   srand(time(0));
+   int x;
+   int y;
+   if(freesquares() > 0)
+   {
+      do
+      {
+         x = rand() % 3;
+         y = rand() % 3;
+      } 
+      while (board[x][y] != ' ');      
+    board[x][y] = Pc_icon;
+   }
+   else
+   {
+      printWinner(' ');
+   }
 }
